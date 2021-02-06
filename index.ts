@@ -212,8 +212,8 @@ class GameHost {
           nextGameState.diceLeft = 8 - gamestate.hutches - gamestate.carrots
         }
 
-        if (endTurn) {
-          debug.turn(`${player.name} ends his turn.`)
+        if (!doContinue) {
+          debug.turn(`${player.name} ended his turn.`)
         }
 
         gamestate = nextGameState
