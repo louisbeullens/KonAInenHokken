@@ -1,6 +1,6 @@
-import Louis from "./louis"
-import Papa from "./papa"
-import Ward from "./ward"
+import Louis from "./player1"
+import Papa from "./player2"
+import Ward from "./player3"
 import { IGamestate, IPlayer, EDieSymbol } from "./shared"
 import Debug from "debug"
 
@@ -265,5 +265,5 @@ class GameHost {
   }
 }
 
-const game = new GameHost([Louis, Papa])
+const game = new GameHost([Louis, Papa, Ward])
 game.playNewGame()
