@@ -137,19 +137,22 @@ class GameHost {
         }
 
         // give player choice to pick hutch when possible
-        const newHutchCount = gamestate.hutches + 1
-        if (newHutchCount === 2 && rabbitDice.length > 1) {
-          const hutchIndex = rabbitDice.indexOf(2)
+        const nextHutchSymbol = gamestate.hutches + 1
+        if (
+          nextHutchSymbol === EDieSymbol.twoRabbitsTwoHutches &&
+          rabbitDice.length > 1
+        ) {
+          const hutchIndex = rabbitDice.indexOf(nextHutchSymbol)
           if (hutchIndex > -1 && player.pickHutch(copiedGameState, [...dice])) {
             rabbitDice.splice(hutchIndex, 1)
-            nextGameState.hutches = 2
+            nextGameState.hutches = nextHutchSymbol
             nextGameState.diceLeft--
           }
         } else if (
-          otherDice.includes(newHutchCount) &&
+          otherDice.includes(nextHutchSymbol) &&
           player.pickHutch(copiedGameState, [...dice])
         ) {
-          nextGameState.hutches = newHutchCount
+          nextGameState.hutches = nextHutchSymbol
           nextGameState.diceLeft--
         }
 
@@ -193,14 +196,14 @@ class GameHost {
 
         // add score for single and paired rabbits
         validatedRabits
-          .filter((die) => die === 1)
+          .filter((die) => die === EDieSymbol.oneRabbit)
           .forEach((die, i) => {
             nextGameState.rabbits += i % 2 ? 9 : 1
           })
 
         // add score for hutched rabbits
         validatedRabits
-          .filter((die) => die === 2)
+          .filter((die) => die === EDieSymbol.twoRabbitsTwoHutches)
           .forEach((die) => (nextGameState.rabbits += 2))
 
         // substract used dice from diceLeft
