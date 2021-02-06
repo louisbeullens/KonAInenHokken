@@ -4,7 +4,8 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "start": "tsc -p tsconfig.json && node ."
+    "start": "tsc -p tsconfig.json && node .",
+    "test": "npm run start 2>>output.txt"
   },
   "author": "",
   "license": "ISC",

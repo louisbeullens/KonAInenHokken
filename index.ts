@@ -261,7 +261,7 @@ class GameHost {
     )
     const winner = scores[0]
 
-    debug.gameEnd(`${winner[0]} wins the game.`)
+    debug.gameEnd(`${winner[0]} wins the game.\r\n`)
   }
 }
 
