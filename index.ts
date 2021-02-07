@@ -98,7 +98,7 @@ class GameHost {
     })
   }
 
-  public playRound(): void {
+  public async playRound() {
     // load gamestate
     let gamestate = this.gamestate
 
@@ -110,7 +110,7 @@ class GameHost {
       let copiedGameState = copyGameState(gamestate)
 
       // give current player the choice to continue from previous player
-      if (gamestate.rabbits && player.doContinue(copiedGameState)) {
+      if (gamestate.rabbits && (await player.doContinue(copiedGameState))) {
         debug.turn(`${player.name} chooses to continue.`)
       } else if (gamestate.rabbits) {
         debug.turn(`${player.name} chooses not to continue.`)
@@ -143,21 +143,24 @@ class GameHost {
           rabbitDice.length > 1
         ) {
           const hutchIndex = rabbitDice.indexOf(nextHutchSymbol)
-          if (hutchIndex > -1 && player.pickHutch(copiedGameState, [...dice])) {
+          if (
+            hutchIndex > -1 &&
+            (await player.pickHutch(copiedGameState, [...dice]))
+          ) {
             rabbitDice.splice(hutchIndex, 1)
             nextGameState.hutches = nextHutchSymbol
             nextGameState.diceLeft--
           }
         } else if (
           otherDice.includes(nextHutchSymbol) &&
-          player.pickHutch(copiedGameState, [...dice])
+          (await player.pickHutch(copiedGameState, [...dice]))
         ) {
           nextGameState.hutches = nextHutchSymbol
           nextGameState.diceLeft--
         }
 
         // ask player which dices to pick
-        const [pickedDice, endTurn] = player.pickDice(copiedGameState, [
+        const [pickedDice, endTurn] = await player.pickDice(copiedGameState, [
           ...dice,
         ])
         doContinue = !endTurn
@@ -248,12 +251,12 @@ class GameHost {
     return scores.sort((scoreA, scoreB) => scoreB - scoreA)[0] >= 333
   }
 
-  playNewGame() {
+  async playNewGame() {
     // reset gamestate
     this.gamestate = resetGameState()
     let gamestate = this.gamestate
     while (!this.isLastRound(gamestate)) {
-      this.playRound()
+      await this.playRound()
     }
 
     // load gamestate because playRound chaned it

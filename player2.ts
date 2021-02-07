@@ -2,13 +2,16 @@ import { IPlayer, IGamestate, EDieSymbol, BasePlayer } from "./shared"
 
 class Player extends BasePlayer implements IPlayer {
   name: string = "Papa"
-  doContinue(gameState: IGamestate): boolean {
+  async doContinue(gameState: IGamestate) {
     return true
   }
-  pickHutch(gamestate: IGamestate, dice: EDieSymbol[]): boolean {
+  async pickHutch(gamestate: IGamestate, dice: EDieSymbol[]) {
     return true
   }
-  pickDice(gamestate: IGamestate, dice: EDieSymbol[]): [EDieSymbol[], boolean] {
+  async pickDice(
+    gamestate: IGamestate,
+    dice: EDieSymbol[]
+  ): Promise<[EDieSymbol[], boolean]> {
     return [[], true]
   }
 }

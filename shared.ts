@@ -22,16 +22,19 @@ export interface IPlayer {
 
   // invoked when a hutch is available returns true / false
   // dice: dice rolled this turn
-  pickHutch(gamestate: IGamestate, dice: EDieSymbol[]): boolean
+  pickHutch(gamestate: IGamestate, dice: EDieSymbol[]): Promise<boolean>
 
   // invoked every dice roll
   // dice: dice rolled this turn
   // returns filtered dice, true to end turn
-  pickDice(gamestate: IGamestate, dice: EDieSymbol[]): [EDieSymbol[], boolean]
+  pickDice(
+    gamestate: IGamestate,
+    dice: EDieSymbol[]
+  ): Promise<[EDieSymbol[], boolean]>
 
   // invoked at start when previous player ended turn
   // inspect gameState and decide whether or not to continue from previous player returns true / false
-  doContinue(gameState: IGamestate): boolean
+  doContinue(gameState: IGamestate): Promise<boolean>
 }
 
 export class BasePlayer {
