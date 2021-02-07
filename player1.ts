@@ -12,26 +12,29 @@ const survivalProbabilityMap: number[] = [
 
 class Player extends BasePlayer implements IPlayer {
   name: string = "Louis"
-  private _doContinue(diceLeft: number): boolean {
+  private _doContinue(diceLeft: number) {
     const survivalProbability = survivalProbabilityMap[diceLeft - 1] || 1
     this.log({ diceLeft, survivalProbability })
     return Math.random() < survivalProbability ? true : false
   }
 
-  doContinue(gameState: IGamestate): boolean {
+  async doContinue(gameState: IGamestate) {
     return this._doContinue(gameState.diceLeft)
   }
 
-  private _pickHutch(gamestate: IGamestate, dice: EDieSymbol[]): boolean {
+  private _pickHutch(gamestate: IGamestate, dice: EDieSymbol[]) {
     return true
   }
 
-  pickHutch(gamestate: IGamestate, dice: EDieSymbol[]): boolean {
+  async pickHutch(gamestate: IGamestate, dice: EDieSymbol[]) {
     gamestate.notes.hutchPicked = true
     return this._pickHutch(gamestate, dice)
   }
 
-  pickDice(gamestate: IGamestate, dice: EDieSymbol[]): [EDieSymbol[], boolean] {
+  async pickDice(
+    gamestate: IGamestate,
+    dice: EDieSymbol[]
+  ): Promise<[EDieSymbol[], boolean]> {
     this.log("picking dice.", gamestate)
     let diceLeft = gamestate.diceLeft
     if (dice.filter((die) => die === 6).length === gamestate.diceLeft) {
