@@ -1,4 +1,5 @@
 package-lock.json
 yarn.lock
+*.js.map
 dist/
 node_modules/
