@@ -1,10 +1,10 @@
 {
-  "name": "konijnenkoten",
+  "name": "konijnenhokken",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "start": "tsc -p tsconfig.json && node .",
+    "start": "tsc -p tsconfig.json && cp ./player1.js ./dist/player1.js && node .",
     "test": "npm run start 2>>output.txt"
   },
   "author": "",
@@ -15,6 +15,7 @@
     "typescript": "^4.1.3"
   },
   "dependencies": {
-    "debug": "^4.3.1"
+    "debug": "^4.3.1",
+    "source-map-support": "^0.5.19"
   }
 }

@@ -1,0 +1,2 @@
+module.exports=(()=>{"use strict";var e={847:(e,r,t)=>{Object.defineProperty(r,"__esModule",{value:!0});const s=t(922);class n extends s.BasePlayer{constructor(){super(...arguments),this.name="Louis"}async doContinue(e){return Math.random()<.5}async pickHutch(e,r){return!0}async pickDice(e,r){return[[...r],!await this.doContinue(e)]}}r.default=new n},922:e=>{e.exports=require("./shared.js")}},r={};return function t(s){if(r[s])return r[s].exports;var n=r[s]={exports:{}};return e[s](n,n.exports,t),n.exports}(847)})();
+//# sourceMappingURL=../player1.js.map
