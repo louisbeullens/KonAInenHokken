@@ -121,7 +121,6 @@ class GameHost {
                     const hutchIndex = rabbitDice.indexOf(nextHutchSymbol)
                     if (hutchIndex > -1 && (await player.pickHutch(copiedGameState, [...dice]))) {
                         rabbitDice.splice(hutchIndex, 1)
-                        console.log('rabbitDice', rabbitDice)
                         gamestate.pickHutch()
                         debug.turn(`${player.name} picked hutch.`)
                     }
