@@ -70,6 +70,12 @@ const sortDice = (dice: EDieSymbol[]): ISortDiceObject => {
     return result
 }
 
+const optionallyLogPlayerEndedTurn = (player: IPlayer, endTurn: boolean) => {
+    if (endTurn) {
+        debug.turn(`${player.name} ended his turn.`)
+    }
+}
+
 class GameHost {
     constructor(private players: IPlayer[] = [], private gamestate: IGamestate = Gamestate.create()) {
         players.forEach((player, i) => {
@@ -102,6 +108,12 @@ class GameHost {
             // emulate player turn
             while (doContinue) {
                 debug.debug(gamestate)
+
+                // update copiedGameState
+                const newcopiedGameState = gamestate.clone()
+                newcopiedGameState.notes = copiedGameState.notes
+                copiedGameState = newcopiedGameState
+
                 // roll dice
                 const dice = rollDice(gamestate.diceLeft)
                 debug.turn(`${player.name} rolled [ ${dice.join(', ')} ].`)
@@ -121,7 +133,6 @@ class GameHost {
                     const hutchIndex = rabbitDice.indexOf(nextHutchSymbol)
                     if (hutchIndex > -1 && (await player.pickHutch(copiedGameState, [...dice]))) {
                         rabbitDice.splice(hutchIndex, 1)
-                        console.log('rabbitDice', rabbitDice)
                         gamestate.pickHutch()
                         debug.turn(`${player.name} picked hutch.`)
                     }
@@ -144,6 +155,7 @@ class GameHost {
                 if (gamestate.areAllCarrots(dice)) {
                     debug.turn(`${player.name} threw all carrots.`)
                     gamestate.pickDice(dice)
+                    optionallyLogPlayerEndedTurn(player, endTurn)
                     continue
                 }
 
@@ -169,14 +181,7 @@ class GameHost {
 
                 gamestate.pickDice(validatedRabits)
 
-                // update copiedGameState
-                let newcopiedGameState = gamestate.clone();
-                newcopiedGameState.notes = copiedGameState.notes;
-                copiedGameState = newcopiedGameState;
-
-                if (!doContinue) {
-                    debug.turn(`${player.name} ended his turn.`)
-                }
+                optionallyLogPlayerEndedTurn(player, endTurn)
             }
 
             // save player's score
