@@ -70,6 +70,12 @@ const sortDice = (dice: EDieSymbol[]): ISortDiceObject => {
     return result
 }
 
+const optionallyLogPlayerEndedTurn = (player: IPlayer, endTurn: boolean) => {
+    if (endTurn) {
+        debug.turn(`${player.name} ended his turn.`)
+    }
+}
+
 class GameHost {
     constructor(private players: IPlayer[] = [], private gamestate: IGamestate = Gamestate.create()) {
         players.forEach((player, i) => {
@@ -149,6 +155,7 @@ class GameHost {
                 if (gamestate.areAllCarrots(dice)) {
                     debug.turn(`${player.name} threw all carrots.`)
                     gamestate.pickDice(dice)
+                    optionallyLogPlayerEndedTurn(player, endTurn)
                     continue
                 }
 
@@ -174,9 +181,7 @@ class GameHost {
 
                 gamestate.pickDice(validatedRabits)
 
-                if (!doContinue) {
-                    debug.turn(`${player.name} ended his turn.`)
-                }
+                optionallyLogPlayerEndedTurn(player, endTurn)
             }
 
             // save player's score
