@@ -168,6 +168,11 @@ class GameHost {
 
                 gamestate.pickDice(validatedRabits)
 
+                // update copiedGameState
+                let newcopiedGameState = gamestate.clone();
+                newcopiedGameState.notes = copiedGameState.notes;
+                copiedGameState = newcopiedGameState;
+
                 if (!doContinue) {
                     debug.turn(`${player.name} ended his turn.`)
                 }
