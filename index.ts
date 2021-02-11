@@ -102,6 +102,12 @@ class GameHost {
             // emulate player turn
             while (doContinue) {
                 debug.debug(gamestate)
+
+                // update copiedGameState
+                const newcopiedGameState = gamestate.clone()
+                newcopiedGameState.notes = copiedGameState.notes
+                copiedGameState = newcopiedGameState
+
                 // roll dice
                 const dice = rollDice(gamestate.diceLeft)
                 debug.turn(`${player.name} rolled [ ${dice.join(', ')} ].`)
@@ -167,11 +173,6 @@ class GameHost {
                 }
 
                 gamestate.pickDice(validatedRabits)
-
-                // update copiedGameState
-                let newcopiedGameState = gamestate.clone();
-                newcopiedGameState.notes = copiedGameState.notes;
-                copiedGameState = newcopiedGameState;
 
                 if (!doContinue) {
                     debug.turn(`${player.name} ended his turn.`)
